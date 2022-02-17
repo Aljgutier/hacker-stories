@@ -1,17 +1,14 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
- 
+
 Project created and developed with the aid of
 * Kindle book: The Road to React
 * https://www.roadtoreact.com/
-* https://github.com/the-road-to-learn-react/hacker-stories  (note, this is not chapter by chapter, its the entire thing)
-* Aljgutier Github repo "hacker stories" branch at each major book topi. Each is a branch from the previous in the following order.
-  * branch setup
-  * branch topic A
-  * branch topic B
-  * branch topic C
-
+* https://github.com/the-road-to-learn-react/hacker-stories  ... completed code at the end of the book.
+* Aljgutier Github repo "hacker stories" branches:
+  * main - repo creation
+  * setup - prior to any book topic
 
 ## Available Scripts
 
