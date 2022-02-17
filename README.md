@@ -5,10 +5,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Project created and developed with the aid of
 * Kindle book: The Road to React
 * https://www.roadtoreact.com/
-* https://github.com/the-road-to-learn-react/hacker-stories  ... completed code at the end of the book.
-* Aljgutier Github repo "hacker stories" branches:
-  * main - repo creation
-  * setup - prior to any book topic
+* https://github.com/the-road-to-learn-react/hacker-stories  (note, this is not chapter by chapter, its the entire thing)
+* Aljgutier Github repo "hacker stories" branch at each major book topi. Each is a branch from the previous in the following order.
+  * 0_setup
+  * 1_appjs
+  * 2_React_JSX
+  * ... 
 
 ## Available Scripts
 
