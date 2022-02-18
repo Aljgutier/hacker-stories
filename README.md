@@ -10,7 +10,7 @@ Project created and developed with the aid of
   * 0_setup
   * 1_appjs
   * 2_React_JSX
-  * ... 
+  * 3_Lists 
 
 ## Available Scripts
 
