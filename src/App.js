@@ -20,45 +20,41 @@ const App = () => {
     },
   ];
 
-  return (
-    <div>
-      <h1>My Hacker Stories</h1>
-
-      <Search />
-
-      <hr />
-
-      <List list={stories} />
-    </div>
-  );
-};
-
-// define state
-const Search = () => {
+  // state .. [current-state, state-chang-func]
   const [searchTerm, setSearchTerm] = React.useState('');
 
-  // A. handler function defined here
-  const handleChange = (event) => {
-
-    // C. callback/action point ... set state on change ... re render
+  // A. call back handler function
+  const handleSearch = (event) => {
+    //C. call back action
     setSearchTerm(event.target.value);
   };
 
   
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
-      <label htmlFor="search">Search: </label>
+      <h1>My Hacker Stories</h1>
 
-      // B. call back trigger ... function used here
-      <input id="search" type="text" onChange={handleChange} />
+      {/* B. Pass call back function down */}
+      <Search onSearch={handleSearch} />
 
-      <p>
-        // searchTerm is a function ... will re-render when changed
-        Searching for <strong>{searchTerm}</strong>.
-      </p>
+      <hr />
+
+      <List list={searchedStories} />
     </div>
   );
 };
+
+const Search = (props) => (
+  <div>
+    <label htmlFor="search">Search: </label>
+    {/* B. uses the call back onSearch here */}
+    <input id="search" type="text" onChange={props.onSearch} />
+  </div>
+);
 
 const List = (props) => (
   <ul>
@@ -80,3 +76,4 @@ const Item = (props) => (
 );
 
 export default App;
+
