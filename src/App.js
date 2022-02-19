@@ -20,7 +20,7 @@ const App = () => {
     },
   ];
 
-  // state .. [current-state, state-chang-func]
+  // state .. [current-state, state-chang-func] ... "use State Hook"
   const [searchTerm, setSearchTerm] = React.useState('');
 
   // A. call back handler function
