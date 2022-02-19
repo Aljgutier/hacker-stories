@@ -33,19 +33,27 @@ const App = () => {
   );
 };
 
+// define state
 const Search = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
 
+  // A. handler function defined here
   const handleChange = (event) => {
+
+    // C. callback/action point ... set state on change ... re render
     setSearchTerm(event.target.value);
   };
 
+  
   return (
     <div>
       <label htmlFor="search">Search: </label>
+
+      // B. call back trigger ... function used here
       <input id="search" type="text" onChange={handleChange} />
 
       <p>
+        // searchTerm is a function ... will re-render when changed
         Searching for <strong>{searchTerm}</strong>.
       </p>
     </div>
