@@ -20,12 +20,20 @@ const App = () => {
     },
   ];
 
-  // state .. [current-state, state-chang-func] ... "use State Hook"
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  // state
+  //      [current-state, state-change-func] ... "use State Hook"
+  //       get variable from storage if it exists
+  const [searchTerm, setSearchTerm] = React.useState(localStorage.getItem('search') || 'React'
+  );
+
+  // update browser storage anytime the searchTerm changes
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm); },
+     [searchTerm]);
 
   // A. call back handler function
   const handleSearch = (event) => {
-    //C. call back action
+    //C. call back action ... on change set the search state variable ... seearchTerm
     setSearchTerm(event.target.value);
   };
 
@@ -38,7 +46,8 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
 
-      {/* B. Pass call back function down */}
+      {/* B. Pass call back function down
+             ... notice change of variable name search = searchTerm  */}
       <Search search = {searchTerm} onSearch={handleSearch} />
 
       <hr />
