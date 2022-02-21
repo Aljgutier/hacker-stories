@@ -1,5 +1,23 @@
 import * as React from 'react';
 
+
+const useSemiPersistentState = (key, initialState) => {
+  // state
+  //      [current-state, state-change-func] ... "use State Hook"
+  //       get variable from storage if it exists
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+
+  // update browser storage anytime the searchTerm changes
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
+
+
 const App = () => {
   const stories = [
     {
@@ -21,15 +39,13 @@ const App = () => {
   ];
 
   // state
-  //      [current-state, state-change-func] ... "use State Hook"
-  //       get variable from storage if it exists
-  const [searchTerm, setSearchTerm] = React.useState(localStorage.getItem('search') || 'React'
+  //      [current-state, state-change-func] ... "useSemiPersistantState uses State Hook"
+  //       inputs are key, initital value
+  const [searchTerm, setSearchTerm] = useSemiPersistentState(
+    'search',
+    'React'
   );
-
-  // update browser storage anytime the searchTerm changes
-  React.useEffect(() => {
-    localStorage.setItem('search', searchTerm); },
-     [searchTerm]);
+  
 
   // A. call back handler function
   const handleSearch = (event) => {
