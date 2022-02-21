@@ -40,7 +40,7 @@ const App = () => {
 
   // state
   //      [current-state, state-change-func] ... "useSemiPersistantState uses State Hook"
-  //       inputs are key, initital value
+  //       storage-key, initital value
   const [searchTerm, setSearchTerm] = useSemiPersistentState(
     'search',
     'React'
