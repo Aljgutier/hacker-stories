@@ -62,9 +62,14 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
 
-      {/* B. Pass call back function down
-             ... notice change of variable name search = searchTerm  */}
-      <Search search = {searchTerm} onSearch={handleSearch} />
+      {/* B. Pass call back function down */}
+
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      />
 
       <hr />
 
@@ -72,6 +77,25 @@ const App = () => {
     </div>
   );
 };
+
+const InputWithLabel = ({
+  id,
+  label,
+  value,
+  type = 'text',
+  onInputChange,
+}) => (
+  <>
+    <label htmlFor={id}>{label}</label>
+    &nbsp;
+    <input
+      id={id}
+      type={type}
+      value={value}
+      onChange={onInputChange}
+    />
+  </>
+);
 
 const Search = ({search, onSearch}) => (
   <> {/* React Fragment ... https://www.educative.io/edpresso/what-are-react-fragments */}
