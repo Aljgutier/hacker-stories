@@ -78,6 +78,7 @@ const App = () => {
   );
 };
 
+// React Reusable Component ... defaults to text
 const InputWithLabel = ({
   id,
   label,
