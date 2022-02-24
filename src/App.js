@@ -67,9 +67,9 @@ const App = () => {
         id="search"
         label="Search"
         value={searchTerm}
-        onInputChange={handleSearch}
-      />
-
+        onInputChange={handleSearch}>
+        <strong>Search</strong>
+        </InputWithLabel>
       <hr />
 
       <List list={searchedStories} />
@@ -84,6 +84,7 @@ const InputWithLabel = ({
   value,
   type = 'text',
   onInputChange,
+  children,
 }) => (
 // React Fragmants <> </>
   <>
