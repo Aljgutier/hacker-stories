@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-
+// define Simi Persistant State Function
 const useSemiPersistentState = (key, initialState) => {
   // state
   //      [current-state, state-change-func] ... "use State Hook"
@@ -86,6 +86,7 @@ const InputWithLabel = ({
   type = 'text',
   onInputChange,
 }) => (
+// React Fragmants <> </>
   <>
     <label htmlFor={id}>{label}</label>
     &nbsp;
