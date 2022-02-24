@@ -80,6 +80,7 @@ const App = () => {
 
 // React Reusable Component ... defaults to text
 // Refactor to imparative programming ...
+// generally better to stacy declaritive, but sometimes imperattive i
 //     A create ref, 
 //     B pass to input, 
 //     C opt into React's lifecye
