@@ -67,6 +67,7 @@ const App = () => {
         id="search"
         label="Search"
         value={searchTerm}
+        isFocused // defaults to true 
         onInputChange={handleSearch}>
         <strong>Search</strong>
         </InputWithLabel>
@@ -78,26 +79,49 @@ const App = () => {
 };
 
 // React Reusable Component ... defaults to text
+// Refactor to imparative programming ...
+//     A create ref, 
+//     B pass to input, 
+//     C opt into React's lifecye
+//     D get access to the current state and execute its focus
 const InputWithLabel = ({
   id,
   label,
   value,
   type = 'text',
   onInputChange,
+  isFocused,
   children,
-}) => (
+}) => {
+  // A create a ref with React's useRef hook, includes current property
+  const inputRef = React.useRef();
+
+  // C opt into React's lifecycle with React's useEffect Hook
+  React.useEffect(() => {
+    if (isFocused && inputRef.current) {
+      //D current property gives access to the element
+      inputRef.current.focus();
+  } 
+},[isFocused]);
+
+
+return(
 // React Fragmants <> </>
   <>
     <label htmlFor={id}>{label}</label>
     &nbsp;
+      {/* B ref is passed into input JSX reserved ref attribute*/}
     <input
+      ref={inputRef}
       id={id}
       type={type}
       value={value}
+      autofocus={isFocused}
       onChange={onInputChange}
     />
   </>
-);
+ );
+};
 
 const Search = ({search, onSearch}) => (
   <> {/* React Fragment ... https://www.educative.io/edpresso/what-are-react-fragments */}
