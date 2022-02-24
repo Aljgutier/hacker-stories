@@ -63,7 +63,6 @@ const App = () => {
       <h1>My Hacker Stories</h1>
 
       {/* B. Pass call back function down */}
-
       <InputWithLabel
         id="search"
         label="Search"
