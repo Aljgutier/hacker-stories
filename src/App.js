@@ -76,7 +76,7 @@ const App = () => {
       <List list={searchedStories} />
     </div>
   );
-};
+}; // end const App function
 
 // React Reusable Component ... defaults to text
 // Refactor to imparative programming ...
