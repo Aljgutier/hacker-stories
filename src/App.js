@@ -55,7 +55,6 @@ const useSemiPersistentState = (key, initialState) => {
 
 const App = () => {
 
-
   // state
   //      [current-state, state-change-func] ... "useSemiPersistantState uses State Hook"
   //       storage-key, initital value
