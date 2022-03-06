@@ -160,13 +160,6 @@ return(
  );
 };
 
-const Search = ({search, onSearch}) => (
-  <> {/* React Fragment ... https://www.educative.io/edpresso/what-are-react-fragments */}
-    <label htmlFor="search">Search: </label>
-    {/* B. uses the call back onSearch here */}
-    <input id="search" type="text" value={search} onChange={onSearch} />
-  </>
-);
 
 // receives handler function for onRemoveItem
 const List = ({list, onRemoveItem}) => (
