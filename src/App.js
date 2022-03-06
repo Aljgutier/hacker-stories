@@ -3,13 +3,17 @@ import * as React from 'react';
 // define Simi Persistant State Function
 const useSemiPersistentState = (key, initialState) => {
   // state
-  //      [current-state, state-change-func] ... "use State Hook"
+  //      [current-state, state-change-func] ... use State Hook
   //       get variable from storage if it exists
+  //       update state anytime value changes
+  //       setValue is the function for changing the value
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
   );
 
-  // update browser storage anytime the searchTerm changes
+  // React's useEffect Hook
+  // updates browser storage anytime the searchTerm changes
+
   React.useEffect(() => {
     localStorage.setItem(key, value);
   }, [value, key]);
@@ -19,7 +23,7 @@ const useSemiPersistentState = (key, initialState) => {
 
 
 const initialStories = [
-  {
+  {   
     title: 'React',
     url: 'https://reactjs.org/',
     author: 'Jordan Walke',
@@ -43,6 +47,8 @@ const App = () => {
   // state
   //      [current-state, state-change-func] ... "useSemiPersistantState uses State Hook"
   //       storage-key, initital value
+  //       key = 'search'
+  //       initial_value = 'React'
   const [searchTerm, setSearchTerm] = useSemiPersistentState(
     'search',
     'React'
