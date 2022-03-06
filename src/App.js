@@ -1,25 +1,5 @@
 import * as React from 'react';
 
-// define Simi Persistant State Function
-const useSemiPersistentState = (key, initialState) => {
-  // state
-  //      [current-state, state-change-func] ... use State Hook
-  //       get variable from storage if it exists
-  //       update state anytime value changes
-  //       setValue is the function for changing the value
-  const [value, setValue] = React.useState(
-    localStorage.getItem(key) || initialState
-  );
-
-  // React's useEffect Hook
-  // updates browser storage anytime the searchTerm changes
-
-  React.useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key]);
-
-  return [value, setValue];
-};
 
 
 const initialStories = [
@@ -41,6 +21,38 @@ const initialStories = [
   },
 ];
 
+const getAsyncStories = () =>
+  new Promise((resolve) =>
+    setTimeout(
+      () => resolve({ data: { stories: initialStories } }),
+      2000
+    )
+  );
+
+  // define Simi Persistant State Function
+const useSemiPersistentState = (key, initialState) => {
+  // state
+  //      [current-state, state-change-func] ... use State Hook
+  //         when called by the component,
+  //         component updated when the value of current-state variable changes
+  //       get variable from storage if it exists
+  //       update state anytime value changes
+  //       setValue is the function for changing the value
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+
+  // React's useEffect Hook
+  // updates browser storage anytime the searchTerm changes
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
+
+
 const App = () => {
 
 
@@ -54,7 +66,13 @@ const App = () => {
     'React'
   );
 
-  const [stories, setStories] = React.useState(initialStories)
+  const [stories, setStories] = React.useState([]);
+
+  React.useEffect(() => {
+    getAsyncStories().then((result) => {
+      setStories(result.data.stories);
+    });
+  }, []);
 
   const handleRemoveStory = (item) => {
     const newStories = stories.filter(
