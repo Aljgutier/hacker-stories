@@ -66,25 +66,33 @@ const App = () => {
   );
 
   const [stories, setStories] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
 
   React.useEffect(() => {
-    getAsyncStories().then((result) => {
-      setStories(result.data.stories);
-    });
-  }, []);
+    setIsLoading(true);
 
-  const handleRemoveStory = (item) => {
-    const newStories = stories.filter(
-      (story) => item.objectID !== story.objectID
-    );
-    setStories(newStories);
-  };
-  
+    getAsyncStories()
+      .then((result) => {
+        setStories(result.data.stories);
+        setIsLoading(false);
+      })
+      .catch(() => setIsError(true));
+  }, []);
 
   // A. call back handler function
   const handleSearch = (event) => {
     //C. call back action ... on change set the search state variable ... seearchTerm
     setSearchTerm(event.target.value);
+  };
+
+  // Handle Remove Item
+  const handleRemoveStory = (item) => {
+    const newStories = stories.filter(
+      (story) => item.objectID !== story.objectID
+    );
+
+    setStories(newStories);
   };
 
   
@@ -107,8 +115,19 @@ const App = () => {
         </InputWithLabel>
       <hr />
 
-      {/* add callback function for handleRemoveStory ... pass down */}
-      <List list={searchedStories} onRemoveItem ={handleRemoveStory} />
+  
+
+      {isError && <p>Something went wrong ...</p>}
+
+      {isLoading ? (
+        <p>Loading ...</p>
+      ) : (
+            //{/* add callback function for handleRemoveStory ... pass down */}
+        <List
+          list={searchedStories}
+          onRemoveItem={handleRemoveStory}
+        />
+      )}
     </div>
   );
 }; // end const App function
