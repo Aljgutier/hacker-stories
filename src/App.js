@@ -29,9 +29,9 @@ const getAsyncStories = () =>
     )
   );
 
-  // define Simi Persistant State Function
+  // define Semi Persistant State Function
 const useSemiPersistentState = (key, initialState) => {
-  // state
+  // state ... useState state updater and useEffect carries out effect when state changes
   //      [current-state, state-change-func] ... use State Hook
   //         when called by the component,
   //         component updated when the value of current-state variable changes
@@ -44,7 +44,7 @@ const useSemiPersistentState = (key, initialState) => {
 
   // React's useEffect Hook
   // updates browser storage anytime the searchTerm changes
-
+  
   React.useEffect(() => {
     localStorage.setItem(key, value);
   }, [value, key]);
