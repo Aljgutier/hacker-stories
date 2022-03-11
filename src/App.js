@@ -31,12 +31,13 @@ const getAsyncStories = () =>
 
   // define Semi Persistant State Function
 const useSemiPersistentState = (key, initialState) => {
-  // state ... useState state updater and useEffect carries out effect when state changes
-  //      [current-state, state-change-func] ... use State Hook
+  // state ... 
+  //     useState state hook for updating the state
+  //     useEffect carries an effect when state changes
+  //      [state-variable, state-change-func] ... use State Hook
   //         when called by the component,
-  //         component updated when the value of current-state variable changes
+  //         component updated when the value of state variable changes
   //       get variable from storage if it exists
-  //       update state anytime value changes
   //       setValue is the function for changing the value
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
@@ -44,7 +45,7 @@ const useSemiPersistentState = (key, initialState) => {
 
   // React's useEffect Hook
   // updates browser storage anytime the searchTerm changes
-  
+
   React.useEffect(() => {
     localStorage.setItem(key, value);
   }, [value, key]);
@@ -161,8 +162,7 @@ const InputWithLabel = ({
 
 
 return(
-// React Fragmants <> </>
-  <>
+  <>  {/* React Fragment ... don't create a DOM */}
     <label htmlFor={id}>{label}</label>
     &nbsp;
       {/* B ref is passed into input JSX reserved ref attribute*/}
