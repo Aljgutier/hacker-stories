@@ -53,10 +53,26 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 };
 
+// function to be used by reducer ... the reducer function receives state and action
+// action is always associated with a type
+// returns payload which becomes the new state
+// use switch statement instead of if else
+const storiesReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_STORIES':
+      return action.payload;
+    case 'REMOVE_STORY':
+      return state.filter(
+        (story) => action.payload.objectID !== story.objectID
+      );
+    default:
+      throw new Error();
+  }
+};
 
 const App = () => {
 
-  // state
+  // state  ... use custom function for state mananagement defined above
   //      [current-state, state-change-func] ... "useSemiPersistantState uses State Hook"
   //       storage-key, initital value
   //       key = 'search'
@@ -66,36 +82,50 @@ const App = () => {
     'React'
   );
 
-  const [stories, setStories] = React.useState([]);
+  // reducer hook 
+  //   Input: reducer-function and initial state
+  //   Output: array with two items - state , and updater function
+  const [stories, dispatchStories] = React.useReducer(
+    storiesReducer,
+    []
+  );
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
+  
 
+  // Effect hook
+  // [] second argument, empty array ... effect only runs at first time render ...
   React.useEffect(() => {
     setIsLoading(true);
 
+    // Reducer load stories
     getAsyncStories()
       .then((result) => {
-        setStories(result.data.stories);
+        dispatchStories({
+          type: 'SET_STORIES',
+          payload: result.data.stories,
+        });
         setIsLoading(false);
       })
       .catch(() => setIsError(true));
   }, []);
+
+
+  // Handle Remove Item
+  // Reducer Update Function
+  const handleRemoveStory = (item) => {
+    dispatchStories({
+      type: 'REMOVE_STORY',
+      payload: item,
+    });
+  };
 
   // A. call back handler function
   const handleSearch = (event) => {
     //C. call back action ... on change set the search state variable ... seearchTerm
     setSearchTerm(event.target.value);
   };
-
-  // Handle Remove Item
-  const handleRemoveStory = (item) => {
-    const newStories = stories.filter(
-      (story) => item.objectID !== story.objectID
-    );
-
-    setStories(newStories);
-  };
-
   
   const searchedStories = stories.filter((story) =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -115,8 +145,6 @@ const App = () => {
         <strong>Search</strong>
         </InputWithLabel>
       <hr />
-
-  
 
       {isError && <p>Something went wrong ...</p>}
 
