@@ -1,7 +1,9 @@
 import * as React from 'react';
 
+
+
 const initialStories = [
-  {
+  {   
     title: 'React',
     url: 'https://reactjs.org/',
     author: 'Jordan Walke',
@@ -27,24 +29,22 @@ const getAsyncStories = () =>
     )
   );
 
-
-// define Semi Persistant State Function ... used for search term
-// persistance is for the search term
-// uses the state management separate from stories state management
-// useState hook 
-// state ... 
-//     useState state hook for updating the state
-//     useEffect carries an effect when state changes
-//      [state-variable, state-change-func] ... use State Hook
-//         when called by the component,
-//         component updated when the value of state variable changes
-//       get variable from storage if it exists
-//       setValue is the function for changing the value
+  // define Semi Persistant State Function ... used for search term
+  // persistance is for the search term
+  // uses the state management separate from stories state management
+  // useState hook
 const useSemiPersistentState = (key, initialState) => {
+  // state ... 
+  //     useState state hook for updating the state
+  //     useEffect carries an effect when state changes
+  //      [state-variable, state-change-func] ... use State Hook
+  //         when called by the component,
+  //         component updated when the value of state variable changes
+  //       get variable from storage if it exists
+  //       setValue is the function for changing the value
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
   );
-
 
   // React's useEffect Hook
   // updates browser storage anytime the searchTerm changes
@@ -106,7 +106,6 @@ const App = () => {
     'React'
   );
 
-
   // reducer hook ... manages all stories state variables
   //   Input: reducer-function and initial state
   //   Output: array with two items - state , and updater function
@@ -114,6 +113,8 @@ const App = () => {
     storiesReducer,
     { data: [], isLoading: false, isError: false }
   );
+
+
 
   // Effect hook
   // [] second argument, empty array ... effect only runs at first time render ...
@@ -142,13 +143,13 @@ const App = () => {
     });
   };
 
-
   // A. call back handler function
   const handleSearch = (event) => {
+    //C. call back action ... on change set the search state variable ... seearchTerm
     setSearchTerm(event.target.value);
   };
-
-  const searchedStories = stories.data.filter((story) =>
+  
+  const searchedStories = stories.filter((story) =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -156,15 +157,15 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
 
+      {/* B. Pass call back function down */}
       <InputWithLabel
         id="search"
+        //label="Search"
         value={searchTerm}
-        isFocused
-        onInputChange={handleSearch}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
+        isFocused // defaults to true 
+        onInputChange={handleSearch}>
+        <strong>Search</strong>
+        </InputWithLabel>
       <hr />
 
       {stories.isError && <p>Something went wrong ...</p>}
@@ -172,6 +173,7 @@ const App = () => {
       {stories.isLoading ? (
         <p>Loading ...</p>
       ) : (
+            //{/* add callback function for handleRemoveStory ... pass down */}
         <List
           list={searchedStories}
           onRemoveItem={handleRemoveStory}
@@ -180,7 +182,6 @@ const App = () => {
     </div>
   );
 }; // end const App function
-
 
 // React Reusable Component ... defaults to text
 // Refactor to imparative programming ...
@@ -191,6 +192,7 @@ const App = () => {
 //     D get access to the current state and execute its focus
 const InputWithLabel = ({
   id,
+  //label,
   value,
   type = 'text',
   onInputChange,
@@ -200,36 +202,40 @@ const InputWithLabel = ({
   // A create a ref with React's useRef hook, includes current property
   const inputRef = React.useRef();
 
-
   // C opt into React's lifecycle with React's useEffect Hook
   React.useEffect(() => {
     if (isFocused && inputRef.current) {
+      //D current property gives access to the element
       inputRef.current.focus();
-    }
-  }, [isFocused]);
+  } 
+},[isFocused]);
 
-  return (
-    <>
-      <label htmlFor={id}>{children}</label>
-      &nbsp;
-      <input
-        id={id}
-        ref={inputRef}
-        type={type}
-        value={value}
-        onChange={onInputChange}
-      />
-    </>
-  );
+
+return(
+  <>  {/* React Fragment ... don't create a DOM */}
+    <label htmlFor={id}>{children}</label>
+    &nbsp;
+      {/* B ref is passed into input JSX reserved ref attribute*/}
+    <input
+      ref={inputRef}
+      id={id}
+      type={type}
+      value={value}
+      //autofocus={isFocused}
+      onChange={onInputChange}
+    />
+  </>
+ );
 };
 
-const List = ({ list, onRemoveItem }) => (
+
+// receives handler function for onRemoveItem
+const List = ({list, onRemoveItem}) => (
   <ul>
     {list.map((item) => (
-      <Item
-        key={item.objectID}
-        item={item}
-        onRemoveItem={onRemoveItem}
+      <Item key={item.objectID} 
+      item={item} 
+      onRemoveItem={onRemoveItem}
       />
     ))}
   </ul>
@@ -244,11 +250,14 @@ const Item = ({ item, onRemoveItem }) => (
     <span>{item.num_comments}</span>
     <span>{item.points}</span>
     <span>
-      <button type="button" onClick={() => onRemoveItem(item)}>
-        Dismiss
-      </button>
+      {/* inline method */}
+      {/* Dismiss <- remove item */}
+      <button type="button" onClick={() => onRemoveItem(item)}>Dismiss</button>
+      {/*regular method*/}
+      {/* <button type ="button" onClick={handleRemoveItem}>Dismiss</button> */}
     </span>
   </li>
 );
 
 export default App;
+
