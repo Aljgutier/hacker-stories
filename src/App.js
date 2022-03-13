@@ -134,30 +134,21 @@ const App = () => {
   };
 
   // update the URL on submit
-  const handleSearchSubmit = () => {
+  // preventDefault or will automatically reload, instead reload is handled by effect
+  const handleSearchSubmit = (event) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
+    event.preventDefault();
   };
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        isFocused
-        onInputChange={handleSearchInput}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button
-        type="button"
-        disabled={!searchTerm}
-        onClick={handleSearchSubmit}
-      >
-        Submit
-      </button>
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
 
       <hr />
 
@@ -170,8 +161,28 @@ const App = () => {
       )}
     </div>
   );
-}; // end const App function
+}; // App function
 
+const SearchForm = ({
+  searchTerm,
+  onSearchInput,
+  onSearchSubmit,
+}) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel
+      id="search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
+);
 
 // React Reusable Component ... defaults to text
 // Refactor to imparative programming ...
@@ -180,6 +191,7 @@ const App = () => {
 //     B pass to input, 
 //     C opt into React's lifecye
 //     D get access to the current state and execute its focus
+
 const InputWithLabel = ({
   id,
   value,
