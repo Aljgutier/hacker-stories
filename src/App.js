@@ -82,6 +82,9 @@ const App = () => {
     'React'
   );
 
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  );
 
   // reducer hook ... manages all stories state variables
   //   Input: reducer-function and initial state
@@ -92,13 +95,13 @@ const App = () => {
   );
 
   // Replace Effect hook with useCallBack hook
-  // [] second argument, empty array ... effect only runs at first time render ...
+  // [] second argument,  effect only runs when url changes...
   const handleFetchStories = React.useCallback(() => {
     if (!searchTerm) return;
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
-    fetch(`${API_ENDPOINT}${searchTerm}`)
+    fetch(url)
       .then((response) => response.json())
       .then((result) => {
         dispatchStories({
@@ -109,7 +112,7 @@ const App = () => {
       .catch(() =>
         dispatchStories({ type: 'STORIES_FETCH_FAILURE' })
       );
-  }, [searchTerm]);
+  }, [url]);
 
   // invoce handleFetchStories (useCallBack) with useEffect ... second argutment is an array of dependancies
   React.useEffect(() => {
@@ -125,10 +128,14 @@ const App = () => {
     });
   };
 
-
-  // A. call back handler function
-  const handleSearch = (event) => {
+  // set search term as it is typed in
+  const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  // update the URL on submit
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
   return (
@@ -139,10 +146,18 @@ const App = () => {
         id="search"
         value={searchTerm}
         isFocused
-        onInputChange={handleSearch}
+        onInputChange={handleSearchInput}
       >
         <strong>Search:</strong>
       </InputWithLabel>
+
+      <button
+        type="button"
+        disabled={!searchTerm}
+        onClick={handleSearchSubmit}
+      >
+        Submit
+      </button>
 
       <hr />
 
