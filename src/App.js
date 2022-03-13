@@ -91,9 +91,9 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
-  // Effect hook
+  // Replace Effect hook with useCallBack hook
   // [] second argument, empty array ... effect only runs at first time render ...
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
     if (!searchTerm) return;
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
@@ -111,6 +111,10 @@ const App = () => {
       );
   }, [searchTerm]);
 
+  // invoce handleFetchStories (useCallBack) with useEffect ... second argutment is an array of dependancies
+  React.useEffect(() => {
+    handleFetchStories();
+  }, [handleFetchStories]);
 
   // Handle Remove Item
   // Reducer Update Function
